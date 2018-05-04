@@ -1,5 +1,9 @@
-# sina-stock-crawler
+# sina-stock-data crawl/store/analyze
 crawling sina stock
+
+store in mysql
+
+use pandas to analyze
 
 target website : http://vip.stock.finance.sina.com.cn/mkt/#sh_a
 
