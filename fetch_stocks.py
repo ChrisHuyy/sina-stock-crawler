@@ -10,13 +10,13 @@ from dao import query,execute,q
 stock_url = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData"\
 			"?page={page}&num={num}&sort=symbol&asc=1&node={node}&symbol=&_s_r_a=init"
 # 沪市A股
-sh_a_mkt = {'page':1,'num' :40,'node':"sh_a"}
+sh_a_mkt = {'page':1,'num' :40,'node':"sh_a",'explain':'沪市A股'}
 # 沪市B股
-sh_b_mkt = {'page':1,'num' :40,'node':"sh_b"}
+sh_b_mkt = {'page':1,'num' :40,'node':"sh_b",'explain':'沪市B股'}
 # 深市A股
-sz_a_mkt = {'page':1,'num' :40,'node':"sz_a"}
+sz_a_mkt = {'page':1,'num' :40,'node':"sz_a",'explain':'深市A股'}
 # 深市B股
-sz_a_mkt = {'page':1,'num' :40,'node':"sz_b"}
+sz_a_mkt = {'page':1,'num' :40,'node':"sz_b",'explain':'深市B股'}
 
 
 def req(url):
@@ -74,8 +74,11 @@ def check_redandunt(info):
 def update(info,pk):
 	update_list = []
 	for k in info.keys():
-		update_part = "`{}`='{}'".format(k,q(info[k]))
-		update_list.append(update_part)
+		if k == 'ctime':
+			pass
+		else:
+			update_part = "`{}`='{}'".format(k,q(info[k]))
+			update_list.append(update_part)
 	update_sql = "UPDATE `stocks_info` SET {} WHERE `{}` = '{}'".format(",".join(update_list),pk,info[pk])
 	execute(update_sql)
 
