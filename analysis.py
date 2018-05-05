@@ -2,11 +2,14 @@
 from __future__ import division
 from dao import query,execute,q
 import pandas as pd
+import time
 
 # load 出所有数据
 query_sql = "SELECT * FROM `stocks_info`"
 all_info = query(query_sql)
 stocks_info = pd.DataFrame(all_info)
+last_update_time_sql = "SELECT max(last_update_time) as lt FROM `stocks_info`"
+last_update_time = query(last_update_time_sql)[0]['lt']
 
 # 转化函数
 wan_to_yi = lambda x : x/10000
@@ -50,3 +53,10 @@ print "沪市A股平均市盈率%f".decode('utf-8')%stocks_info['per'].mean()
 # 沪市A股中位市盈率
 print "沪市A股中位市盈率%f".decode('utf-8')%stocks_info['per'].median()
 print "\n"
+
+# 数据更新时间
+time_interval = int(time.time() - last_update_time)//3600
+if time_interval < 24:
+	print "数据最后更新时间：{}小时前".format(time_interval).decode('utf-8')
+else:
+	print "数据最后更新时间：{}天前".format(time_interval//24).decode('utf-8')
